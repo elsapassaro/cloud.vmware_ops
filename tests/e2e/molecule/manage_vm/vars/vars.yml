@@ -42,6 +42,7 @@ provision_vms_from_template:
     provision_vm_state: "poweredon"
     provision_vm_template: "{{ provision_vms_template[0].provision_vm_name }}"
     provision_vm_datastore: "datastore1"
+    provision_vm_hardware: "{{ provision_vms_template[0].provision_vm_hardware }}"
 
 provision_vms:
 # RHEL9 VM
