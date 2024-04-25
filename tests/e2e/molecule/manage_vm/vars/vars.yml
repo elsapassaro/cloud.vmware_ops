@@ -131,8 +131,7 @@ vm_updated_hardware:
   memory_mb: 2048
   num_cpus: 6
   num_cpu_cores_per_socket: 2
-  boot_firmware: efi
-  secure_boot: true
+  boot_firmware: bios
 
 vswitch_name: vSwitch0
 portgroup_name: qe-network
