@@ -65,14 +65,14 @@
     name: provision_vm
   vars:
     provision_vm_name: "{{ vm_update_name }}"
-    provision_vm_disk: "{{ vm_enlarge_disk }}"
+    provision_vm_disk: "{{ vm_updated_disks[:1] }}"
 
-# - name: Add disk to existing VM {{ vm_update_name }}
-#   ansible.builtin.import_role:
-#     name: provision_vm
-#   vars:
-#     provision_vm_name: "{{ vm_update_name }}"
-#     provision_vm_disk: "{{ vm_add_disk }}"
+- name: Add disk to existing VM {{ vm_update_name }}
+  ansible.builtin.import_role:
+    name: provision_vm
+  vars:
+    provision_vm_name: "{{ vm_update_name }}"
+    provision_vm_disk: "{{ vm_updated_disks }}"
 
 - name: Update guest_id of existing VM {{ vm_update_name }}
   ansible.builtin.import_role:
