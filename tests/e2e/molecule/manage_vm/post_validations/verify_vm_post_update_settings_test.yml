@@ -48,7 +48,7 @@
     vm: "{{ vm_moid }}"
   register: memory_info
 
-- name: Retrieve disk information using the disk label
+- name: Retrieve disk information using the disk label "Hard disk 1"
   vmware.vmware_rest.vcenter_vm_hardware_disk_info:
     vcenter_hostname: "{{ vcenter_hostname }}"
     vcenter_username: "{{ vcenter_username }}"
@@ -56,7 +56,17 @@
     vcenter_validate_certs: "{{ provision_vm_validate_certs }}"
     vm: "{{ vm_moid }}"
     label: Hard disk 1
-  register: disk_info
+  register: disk_1_info
+
+- name: Retrieve disk information using the disk label "Hard disk 2"
+  vmware.vmware_rest.vcenter_vm_hardware_disk_info:
+    vcenter_hostname: "{{ vcenter_hostname }}"
+    vcenter_username: "{{ vcenter_username }}"
+    vcenter_password: "{{ vcenter_password }}"
+    vcenter_validate_certs: "{{ provision_vm_validate_certs }}"
+    vm: "{{ vm_moid }}"
+    label: Hard disk 2
+  register: disk_2_info
 
 - name: "Validate updated configuration of '{{ vm_update_name }}' VM"
   ansible.builtin.assert:
@@ -65,4 +75,5 @@
       - cpu_info.value.count == vm_updated_hardware.num_cpus
       - cpu_info.value.cores_per_socket == vm_updated_hardware.num_cpu_cores_per_socket
       - memory_info.value.size_MiB == vm_updated_hardware.memory_mb
-      - disk_info.value.capacity == gib_to_bytes * ( vm_enlarge_disk[0].size_gb | int )
+      - disk_1_info.value.capacity == gib_to_bytes * ( vm_updated_disks[0].size_gb | int )
+      - disk_2_info.value.capacity == gib_to_bytes * ( vm_updated_disks[1].size_gb | int )

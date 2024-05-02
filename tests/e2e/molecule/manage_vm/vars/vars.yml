@@ -146,17 +146,13 @@ vm_network_to_add:
 
 vm_updated_networks: "{{ vm_to_update.provision_vm_networks + vm_network_to_add }}"
 
-vm_enlarge_disk:
+vm_updated_disks:
   - size_gb: "{{ vm_to_update.provision_vm_disk[0].size_gb + 10 }}"
     type: "{{ vm_to_update.provision_vm_disk[0].type }}"
     datastore: "{{ vm_to_update.provision_vm_disk[0].datastore }}"
-
-vm_disk_to_add:
   - size_gb: 10
     type: thin
-    datastore: "datastore1"
-
-vm_add_disk: "{{ vm_to_update.provision_vm_disk + vm_disk_to_add }}"
+    datastore: "{{ vm_to_update.provision_vm_disk[0].datastore }}"
 
 guest_fullnames:
   rhel8_64Guest: "Red Hat Enterprise Linux 8 (64-bit)"
