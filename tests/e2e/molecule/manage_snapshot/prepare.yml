@@ -1,0 +1,17 @@
+---
+- name: Prepare testing environment
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Include vSphere datacenter creds
+      ansible.builtin.include_vars:
+        file: ../vault_files/eco_vsphere_creds.yml
+
+    - name: Include vars
+      ansible.builtin.include_vars:
+        file: vars/vars.yml
+
+    - name: Provision VM
+      loop: "{{ manage_snapshot_vm }}"
+      ansible.builtin.include_tasks:
+        file: ../manage_vm/tasks/provision_vm.yml

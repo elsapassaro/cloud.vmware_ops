@@ -1,0 +1,26 @@
+- name: Import vars
+  ansible.builtin.include_vars:
+    file: ../vars/vars.yml
+
+- name: Create snapshot of provisioned VM
+  loop: "{{ vm_snapshots }}"
+  ansible.builtin.include_tasks:
+    file: manage_snapshot/tasks/manage_snapshot.yml
+
+- name: Verify snapshots
+  ansible.builtin.include_tasks:
+    file: ../post_validations/verify_snapshot_test.yml
+
+- name: Update snapshots
+  loop: "{{ vm_snapshots_updated }}"
+  ansible.builtin.include_tasks:
+    file: manage_snapshot/tasks/manage_snapshot.yml
+
+- name: Verify snapshots
+  ansible.builtin.include_tasks:
+    file: ../post_validations/verify_updated_snapshot_test.yml
+
+- name: Remove snapshots
+  loop: "{{ vm_snapshots_updated }}"
+  ansible.builtin.include_tasks:
+    file: tasks/remove_snapshot.yml
