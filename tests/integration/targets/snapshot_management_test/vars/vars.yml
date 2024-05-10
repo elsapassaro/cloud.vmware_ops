@@ -1,0 +1,16 @@
+provision_vm_hostname: "{{ vcenter_hostname }}"
+provision_vm_username: "{{ vcenter_username }}"
+provision_vm_password: "{{ vcenter_password }}"
+provision_vm_validate_certs: false
+provision_vm_cluster: "{{ cluster_name }}"
+provision_vm_folder: "{{ folder_name }}"
+provision_vm_datacenter: "{{ datacenter }}"
+
+vm_name: "qe-vm-test"
+
+snapshot_management_hostname: "{{ vcenter_hostname }}"
+snapshot_management_username: "{{ vcenter_username }}"
+snapshot_management_password: "{{ vcenter_password }}"
+snapshot_management_validate_certs: false
+snapshot_management_folder: "{{ folder_name }}"
+snapshot_management_datacenter: "{{ datacenter }}"

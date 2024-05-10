@@ -1,18 +1,42 @@
 ---
+- name: Import vars
+  ansible.builtin.include_vars:
+    file: vars.yml
+
+- name: Provision VM
+  ansible.builtin.import_role:
+    name: cloud.vmware_ops.provision_vm
+  vars:
+    provision_vm_name: "{{ vm_name }}"
+    provision_vm_disk:
+    - size_gb: 10
+      type: thin
+      datastore: "datastore1"
+    provision_vm_hardware:
+      memory_mb: 512
+      num_cpus: 4
+    provision_vm_guest_id: "centos64Guest"
+
 - name: Create VM snapshot
-  #Ignore the errors due to an error in the response SOAP call from vcsim
-  ignore_errors: true
   ansible.builtin.import_role:
     name: cloud.vmware_ops.snapshot_management
   vars:
-    snapshot_management_hostname: "127.0.0.1"
-    snapshot_management_username: "test"
-    snapshot_management_password: "test"
-    snapshot_management_validate_certs: false
-    snapshot_management_folder: "/DC0/vm"
-    snapshot_management_datacenter: "DC0"
-    snapshot_management_vm_name: "DC0_H0_VM0"
-    snapshot_management_port: "8989"
+    snapshot_management_vm_name: "{{ vm_name }}"
     snapshot_management_state: present
     snapshot_management_snapshot_name: "snap1"
     snapshot_management_snapshot_description: "snap1_description"
+
+- name: Remove VM snapshot
+  ansible.builtin.import_role:
+    name: cloud.vmware_ops.snapshot_management
+  vars:
+    snapshot_management_vm_name: "{{ vm_name }}"
+    snapshot_management_state: absent
+    snapshot_management_snapshot_name: "snap1"
+
+- name: Remove VM
+  ansible.builtin.import_role:
+    name: cloud.vmware_ops.provision_vm
+  vars:
+    provision_vm_name: "{{ vm_name }}"
+    provision_vm_state: "absent"
