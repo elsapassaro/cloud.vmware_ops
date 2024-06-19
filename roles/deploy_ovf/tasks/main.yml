@@ -54,6 +54,7 @@
     resource_pool: "{{ deploy_ovf_resource_pool | default(omit) }}"
     datastore: "{{ deploy_ovf_datastore | default(omit) }}"
     datastore_cluster: "{{ deploy_ovf_datastore_cluster | default(omit) }}"
+    power_on: "{{ deploy_ovf_power_on | default(omit) }}"
 
     library: "{{ deploy_ovf_library | default(omit) }}"
     log_level: "{{ deploy_ovf_log_level | default(omit) }}"
